@@ -41,8 +41,10 @@ class CartItemWidget extends StatelessWidget {
               radius: 40,
               backgroundImage: NetworkImage(cartItem.productImage),
             ),
-            title: Text("${cartItem.productName} - R\$ ${cartItem.price}"),
-            subtitle: Text("Total: R\$ ${cartItem.price * cartItem.quantity}"),
+            title: Text(
+                "${cartItem.productName} - R\$ ${cartItem.price.toStringAsFixed(2)}"),
+            subtitle: Text(
+                "Total: R\$ ${(cartItem.price * cartItem.quantity).toStringAsFixed(2)}"),
             trailing: Text("${cartItem.quantity}x"),
           ),
         ),
