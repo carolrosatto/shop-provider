@@ -1,7 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:provider_shop/components/product_item.dart';
+import 'package:provider_shop/components/product_grid_item.dart';
 import 'package:provider_shop/models/product.dart';
 import 'package:provider_shop/models/product_list.dart';
 import 'package:provider/provider.dart';
@@ -27,7 +27,7 @@ class ProductGrid extends StatelessWidget {
       ),
       itemBuilder: (context, index) => ChangeNotifierProvider.value(
         value: loadedProducts[index],
-        child: ProductItem(),
+        child: ProductGridItem(),
       ),
     );
   }
