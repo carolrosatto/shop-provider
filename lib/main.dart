@@ -1,5 +1,8 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
 import 'package:provider_shop/models/cart.dart';
+import 'package:provider_shop/models/order_list.dart';
 import 'package:provider_shop/models/product_list.dart';
 import 'package:provider_shop/pages/cart_page.dart';
 import 'package:provider_shop/pages/product_detail_page.dart';
@@ -22,6 +25,9 @@ class MyApp extends StatelessWidget {
         ),
         ChangeNotifierProvider(
           create: (_) => Cart(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => OrderList(),
         )
       ],
       child: MaterialApp(
