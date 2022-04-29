@@ -1,11 +1,15 @@
+import 'dart:convert';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:provider_shop/data/products_data.dart';
+import 'package:http/http.dart' as http;
 import 'package:provider_shop/models/product.dart';
 
 class ProductList with ChangeNotifier {
-  final List<Product> _items = productsData;
+  final _url =
+      'https://shop-flutter-58caf-default-rtdb.firebaseio.com/products.json';
+  final List<Product> _items = [];
+
   bool _showFavoritesOnly = false;
 
   List<Product> get items {
@@ -19,35 +23,79 @@ class ProductList with ChangeNotifier {
     return _items.length;
   }
 
-  saveProductFromData(Map<String, Object> data) {
+  Future<void> loadProducts() async {
+    _items.clear();
+
+    final response = await http.get(Uri.parse(_url));
+    if (response.body == 'null') return;
+    Map<String, dynamic> data = jsonDecode(response.body);
+    data.forEach((productId, product) {
+      _items.add(
+        Product(
+          id: productId,
+          name: product['name'],
+          description: product['description'],
+          price: product['price'],
+          imageUrl: product['imageUrl'],
+          isFavorite: product['isFavorite'],
+        ),
+      );
+    });
+    notifyListeners();
+  }
+
+  Future<void> saveProduct(Map<String, Object> data) {
     bool hasId = data['id'] != null;
 
     final newProduct = Product(
-      id: hasId ? data['id'] as String : Random().nextDouble.toString(),
+      id: hasId ? data['id'] as String : Random().nextDouble().toString(),
       name: data['name'] as String,
       description: data['description'] as String,
       price: data['price'] as double,
       imageUrl: data['imageUrl'] as String,
     );
+
     if (hasId) {
-      updateProduct(newProduct);
+      return updateProduct(newProduct);
     } else {
-      addProduct(newProduct);
+      return addProduct(newProduct);
     }
   }
 
-  void addProduct(Product product) {
-    _items.add(product);
+  Future<void> addProduct(Product product) async {
+    final response = await http.post(
+      Uri.parse(_url),
+      body: jsonEncode(
+        {
+          "name": product.name,
+          "description": product.description,
+          "price": product.price,
+          "imageUrl": product.imageUrl,
+          "isFavorite": product.isFavorite,
+        },
+      ),
+    );
+
+    final id = jsonDecode(response.body)['name'];
+    _items.add(Product(
+      id: id,
+      name: product.name,
+      description: product.description,
+      price: product.price,
+      imageUrl: product.imageUrl,
+      isFavorite: product.isFavorite,
+    ));
     notifyListeners();
   }
 
-  void updateProduct(Product product) {
+  Future<void> updateProduct(Product product) {
     int index = _items.indexWhere((prd) => prd.id == product.id);
 
     if (index >= 0) {
       _items[index] = product;
       notifyListeners();
     }
+    return Future.value();
   }
 
   void deleteProduct(Product product) {
