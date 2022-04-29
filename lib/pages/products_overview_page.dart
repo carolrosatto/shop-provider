@@ -42,42 +42,46 @@ class _ProductsOverviewPageState extends State<ProductsOverviewPage> {
     final provider = Provider.of<ProductList>(context);
 
     return Scaffold(
-      appBar: AppBar(title: Text("Minha loja"), actions: [
-        PopupMenuButton(
-          itemBuilder: (_) => [
-            PopupMenuItem(
-              child: Text('Todos os itens'),
-              value: FilterOptions.all,
+      appBar: AppBar(
+          title: Text(
+            "Minha loja",
+          ),
+          actions: [
+            PopupMenuButton(
+              itemBuilder: (_) => [
+                PopupMenuItem(
+                  child: Text('Todos os itens'),
+                  value: FilterOptions.all,
+                ),
+                PopupMenuItem(
+                  child: Text('Itens favoritos'),
+                  value: FilterOptions.favorite,
+                ),
+              ],
+              icon: Icon(
+                Icons.more_vert,
+              ),
+              onSelected: (FilterOptions selectedValue) {
+                if (selectedValue == FilterOptions.favorite) {
+                  provider.showFavoritesOnly();
+                } else {
+                  provider.showAll();
+                }
+              },
             ),
-            PopupMenuItem(
-              child: Text('Itens favoritos'),
-              value: FilterOptions.favorite,
-            ),
-          ],
-          icon: Icon(
-            Icons.more_vert,
-          ),
-          onSelected: (FilterOptions selectedValue) {
-            if (selectedValue == FilterOptions.favorite) {
-              provider.showFavoritesOnly();
-            } else {
-              provider.showAll();
-            }
-          },
-        ),
-        Consumer<Cart>(
-          child: IconButton(
-            onPressed: () {
-              Navigator.of(context).pushNamed(AppRoutes.CART);
-            },
-            icon: Icon(Icons.shopping_cart),
-          ),
-          builder: (ctx, cart, child) => Badge(
-            value: cart.itemsCount.toString(),
-            child: child!,
-          ),
-        )
-      ]),
+            Consumer<Cart>(
+              child: IconButton(
+                onPressed: () {
+                  Navigator.of(context).pushNamed(AppRoutes.CART);
+                },
+                icon: Icon(Icons.shopping_cart),
+              ),
+              builder: (ctx, cart, child) => Badge(
+                value: cart.itemsCount.toString(),
+                child: child!,
+              ),
+            )
+          ]),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : ProductGrid(),
