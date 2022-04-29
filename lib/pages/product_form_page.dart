@@ -61,13 +61,13 @@ class _ProductFormPageState extends State<ProductFormPage> {
     setState(() {});
   }
 
-  bool isValidImageURL(String url) {
-    bool isValidURL = Uri.tryParse(url)?.hasAbsolutePath ?? false;
-    bool endsWithFile = url.toLowerCase().endsWith('.png') ||
-        url.toLowerCase().endsWith('.jpg') ||
-        url.toLowerCase().endsWith('.jpeg');
-    return isValidURL && endsWithFile;
-  }
+  // bool isValidImageURL(String url) {
+  //   bool isValidURL = Uri.tryParse(url)?.hasAbsolutePath ?? false;
+  //   bool endsWithFile = url.toLowerCase().endsWith('.png') ||
+  //       url.toLowerCase().endsWith('.jpg') ||
+  //       url.toLowerCase().endsWith('.jpeg');
+  //   return isValidURL && endsWithFile;
+  // }
 
   Future<void> _submitForm() async {
     final isValid = _formKey.currentState?.validate() ?? false;
@@ -85,6 +85,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
       ).saveProduct(_formData);
       Navigator.of(context).pop();
     } catch (error) {
+      print(error);
       showDialog(
         context: context,
         builder: (ctx) => AlertDialog(
@@ -211,8 +212,8 @@ class _ProductFormPageState extends State<ProductFormPage> {
                                   _formData['imageUrl'] = imageUrl ?? '',
                               validator: (imageUrl) {
                                 final imageURL = imageUrl ?? '';
-                                if (!isValidImageURL(imageURL)) {
-                                  return "Informe uma URL válida";
+                                if (imageUrl == null) {
+                                  return "Informe uma URL";
                                 }
                                 return null;
                               },
