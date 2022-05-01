@@ -5,10 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider_shop/exceptions/http_exceptions.dart';
 import 'package:provider_shop/models/product.dart';
+import 'package:provider_shop/utils/constants.dart';
 
 class ProductList with ChangeNotifier {
-  final _baseUrl =
-      'https://shop-flutter-58caf-default-rtdb.firebaseio.com/products';
   final List<Product> _items = [];
 
   bool _showFavoritesOnly = false;
@@ -27,7 +26,8 @@ class ProductList with ChangeNotifier {
   Future<void> loadProducts() async {
     _items.clear();
 
-    final response = await http.get(Uri.parse('$_baseUrl.json'));
+    final response =
+        await http.get(Uri.parse('${Constants.PRODUCT_BASE_URL}.json'));
     if (response.body == 'null') return;
     Map<String, dynamic> data = jsonDecode(response.body);
     data.forEach((productId, product) {
@@ -65,7 +65,7 @@ class ProductList with ChangeNotifier {
 
   Future<void> addProduct(Product product) async {
     final response = await http.post(
-      Uri.parse('$_baseUrl.json'),
+      Uri.parse('${Constants.PRODUCT_BASE_URL}.json'),
       body: jsonEncode(
         {
           "name": product.name,
@@ -94,7 +94,7 @@ class ProductList with ChangeNotifier {
 
     if (index >= 0) {
       await http.patch(
-        Uri.parse('$_baseUrl/${product.id}.json'),
+        Uri.parse('${Constants.PRODUCT_BASE_URL}/${product.id}.json'),
         body: jsonEncode(
           {
             "name": product.name,
@@ -120,7 +120,7 @@ class ProductList with ChangeNotifier {
       notifyListeners();
 
       final response = await http.delete(
-        Uri.parse('$_baseUrl/${product.id}.json'),
+        Uri.parse('${Constants.PRODUCT_BASE_URL}/${product.id}.json'),
       );
 
       if (response.statusCode >= 400) {

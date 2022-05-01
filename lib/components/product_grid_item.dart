@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider_shop/exceptions/http_exceptions.dart';
 import 'package:provider_shop/models/cart.dart';
 import 'package:provider_shop/models/product.dart';
 import 'package:provider_shop/utils/app_routes.dart';
@@ -15,6 +16,7 @@ class ProductGridItem extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = Provider.of<Product>(context, listen: false);
     final cart = Provider.of<Cart>(context);
+    final message = ScaffoldMessenger.of(context);
 
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -33,8 +35,18 @@ class ProductGridItem extends StatelessWidget {
           backgroundColor: Colors.black87,
           leading: Consumer<Product>(
             builder: (ctx, product, _) => IconButton(
-              onPressed: () {
-                product.toggleFavorite();
+              onPressed: () async {
+                try {
+                  await product.saveFavorite();
+                } on HttpException catch (error) {
+                  message.showSnackBar(
+                    SnackBar(
+                      content: Text(
+                        error.toString(),
+                      ),
+                    ),
+                  );
+                }
               },
               icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border),
