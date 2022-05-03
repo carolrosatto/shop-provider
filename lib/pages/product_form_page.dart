@@ -110,6 +110,7 @@ class _ProductFormPageState extends State<ProductFormPage> {
       onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
       child: Scaffold(
         appBar: AppBar(
+          bottomOpacity: 0,
           title: Text("Formulário de produto"),
           actions: [
             IconButton(

@@ -7,9 +7,14 @@ import 'package:provider_shop/models/product_list.dart';
 import 'package:provider/provider.dart';
 import 'package:provider_shop/utils/app_routes.dart';
 
-class ProductsPage extends StatelessWidget {
+class ProductsPage extends StatefulWidget {
   const ProductsPage({Key? key}) : super(key: key);
 
+  @override
+  State<ProductsPage> createState() => _ProductsPageState();
+}
+
+class _ProductsPageState extends State<ProductsPage> {
   Future<void> _refreshProducts(BuildContext context) {
     return Provider.of<ProductList>(
       context,
@@ -23,6 +28,7 @@ class ProductsPage extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
+        bottomOpacity: 0,
         title: Text("Gerenciar produtos"),
         actions: [
           IconButton(

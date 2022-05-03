@@ -14,6 +14,7 @@ class ProductDetailPage extends StatelessWidget {
         ModalRoute.of(context)!.settings.arguments as Product;
     return Scaffold(
       appBar: AppBar(
+        bottomOpacity: 0,
         title: Text(product.name),
       ),
       body: SingleChildScrollView(

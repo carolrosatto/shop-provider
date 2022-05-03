@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:provider_shop/utils/color_palette.dart';
 
 class Badge extends StatelessWidget {
   final Widget child;
@@ -21,13 +22,13 @@ class Badge extends StatelessWidget {
       children: [
         child,
         Positioned(
-          right: 8,
-          top: 8,
+          right: 9,
+          top: 9,
           child: Container(
             padding: EdgeInsets.all(2),
             decoration: BoxDecoration(
               color: backgroundColor ?? Theme.of(context).colorScheme.secondary,
-              borderRadius: BorderRadius.circular(10),
+              borderRadius: BorderRadius.circular(20),
             ),
             constraints: BoxConstraints(
               minHeight: 16,
@@ -37,8 +38,9 @@ class Badge extends StatelessWidget {
               value,
               textAlign: TextAlign.center,
               style: TextStyle(
-                fontSize: 10,
-              ),
+                  fontSize: 10,
+                  color: CustomPalette.backgroundLight,
+                  fontWeight: FontWeight.bold),
             ),
           ),
         )
