@@ -12,6 +12,7 @@ import 'package:provider_shop/pages/products_overview_page.dart';
 import 'package:provider_shop/pages/products_page.dart';
 import 'package:provider_shop/utils/app_routes.dart';
 import 'package:provider/provider.dart';
+import 'package:provider_shop/utils/color_palette.dart';
 
 void main() {
   runApp(const MyApp());
@@ -36,10 +37,15 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
-          colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
-              .copyWith(secondary: Colors.red),
-          fontFamily: 'Lato',
-        ),
+            appBarTheme: AppBarTheme(
+              backgroundColor: CustomPalette.backgroundLight,
+              foregroundColor: CustomPalette.brandPrimaryLight,
+              elevation: 0,
+            ),
+            colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple)
+                .copyWith(secondary: CustomPalette.brandSecondaryLight),
+            fontFamily: 'Poppins',
+            scaffoldBackgroundColor: CustomPalette.backgroundLight),
         // home: ProductsOverviewPage(),
         routes: {
           AppRoutes.HOME: (context) => ProductsOverviewPage(),

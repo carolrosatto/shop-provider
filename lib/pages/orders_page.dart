@@ -35,6 +35,7 @@ class _OrdersPageState extends State<OrdersPage> {
 
     return Scaffold(
       appBar: AppBar(
+        bottomOpacity: 0,
         title: Text("Meus pedidos"),
       ),
       drawer: AppDrawer(),

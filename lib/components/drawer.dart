@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:provider_shop/utils/app_routes.dart';
+import 'package:provider_shop/utils/color_palette.dart';
 
 class AppDrawer extends StatelessWidget {
   const AppDrawer({Key? key}) : super(key: key);
@@ -12,7 +13,11 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: [
           AppBar(
-            title: Text("Bem vindo!"),
+            bottomOpacity: 0,
+            title: Text(
+              "Bem vindo!",
+              style: TextStyle(color: Colors.black),
+            ),
             automaticallyImplyLeading: false,
           ),
           Divider(),
